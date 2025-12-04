@@ -16,28 +16,24 @@ fn main() {
 
         let value = turns.parse::<i32>().expect("Error parsing String to i32");
 
-        count += (value) / 100;
-
         match direction {
             "L" => {
-                if dial_position - value % 100 < 0 {
-                    count += 1;
+                for _ in 0..value {
+                    dial_position = (dial_position - 1 as i32).rem_euclid(100);
+                    if dial_position == 0 {
+                        count += 1;
+                    }
                 }
-                dial_position += 100 - value;
             }
             "R" => {
-                if dial_position + value % 100 > 99 {
-                    count += 1;
+                for _ in 0..value {
+                    dial_position = (dial_position + 1 as i32).rem_euclid(100);
+                    if dial_position == 0 {
+                        count += 1;
+                    }
                 }
-                dial_position += value;
             }
             _ => unreachable!(),
-        }
-
-        dial_position %= 100;
-
-        if dial_position == 0 {
-            count += 1;
         }
     }
 
